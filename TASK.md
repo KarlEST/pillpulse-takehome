@@ -2,7 +2,7 @@
 
 ## Background
 
-Anytime you take more than one medication, or even mix it with certain foods, beverages, or over-the-counter medicines, you are at risk of a drug interaction. Most drug interactions are not serious, but because a few are, it is important to understand the possible outcome before you take your medications. Read more from wikipedia 
+Anytime you take more than one medication, or even mix it with certain foods, beverages, or over-the-counter medicines, you are at risk of a drug interaction. Most drug interactions are not serious, but because a few are, it is important to understand the possible outcome before you take your medications. Read more from wikipedia
 
 There are 3 types of interactions:
 
