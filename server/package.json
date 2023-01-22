@@ -1,0 +1,14 @@
+{
+  "name": "pillpulse-takehome-be",
+  "version": "1.0.0",
+  "description": "backend for pillpulse take-home task",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Karl Lääts",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
