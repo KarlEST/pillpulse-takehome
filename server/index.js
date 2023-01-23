@@ -1,11 +1,11 @@
 const fs = require('fs');
 const { parse } = require('csv-parse');
-const express = require("express");
+const express = require('express');
 
 const allDrugs = []
-const drugInteractions = {};
+const allDrugInteractions = {};
 
-readSampleData(allDrugs, drugInteractions);
+initSampleData(allDrugs, allDrugInteractions);
 
 const PORT = 3001;
 const app = express();
@@ -16,28 +16,28 @@ app.get("/api/drugs", (_req, res) => {
 
 app.get('/api/drugs/interactions', (req, res) => {
   const drugs = req.query.drugs;
-  const interactions = [];
+  const drugInteractions = [];
 
   for (let i = 0; i < drugs.length - 1; i++) {
     for (let j = i + 1; j < drugs.length; j++) {
       const drugA = drugs[i];
       const drugB = drugs[j];
-      const drugInteraction = drugInteractions[`${drugA}-${drugB}`] || drugInteractions[`${drugB}-${drugA}`];
+      const drugsInteraction = allDrugInteractions[`${drugA}-${drugB}`] || allDrugInteractions[`${drugB}-${drugA}`];
 
-      if (drugInteraction) {
-        interactions.push(`${drugInteraction.level} interaction found between ${drugInteraction.drugA} and ${drugInteraction.drugB}.`);
+      if (drugsInteraction) {
+        drugInteractions.push(`${drugsInteraction.level} interaction found between ${drugsInteraction.drugA} and ${drugsInteraction.drugB}.`);
       }
     }
   }
 
-  res.json({ interactions });
+  res.json({ drugInteractions });
 })
 
 app.listen(PORT, () => {
   console.log(`Server up and running and listening on ${PORT}`);
 });
 
-function readSampleData(allDrugs, drugInteractions) {
+function initSampleData(allDrugs, allDrugInteractions) {
   const allDrugsTemp = {};
 
   fs.createReadStream('./sample_dataset.csv')
@@ -55,7 +55,7 @@ function readSampleData(allDrugs, drugInteractions) {
 
         allDrugsTemp[drugAId] = drugA;
         allDrugsTemp[drugBId] = drugB;
-        drugInteractions[`${drugAId}-${drugBId}`] = { level, drugA, drugB };
+        allDrugInteractions[`${drugAId}-${drugBId}`] = { level, drugA, drugB };
       }
     })
     .on('end', function () {
@@ -65,6 +65,6 @@ function readSampleData(allDrugs, drugInteractions) {
 
       console.log('Finished reading sample_dataset to memory!');
       console.log('Different drugs: ', allDrugs.length);
-      console.log('Drug interactions count: ', Object.keys(drugInteractions).length);
+      console.log('Drug interactions count: ', Object.keys(allDrugInteractions).length);
     });
 }
