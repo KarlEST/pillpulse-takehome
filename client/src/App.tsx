@@ -18,12 +18,14 @@ const App = () => {
 
   useEffect(() => {
     const fetchAllDrugs = async () => {
+      setIsLoading(true);
+
       try {
-        setIsLoading(true);
         const response = await fetch('/api/drugs');
 
         if (response.ok) {
           const { allDrugs } = (await response.json()) as { allDrugs: DrugOption[] };
+
           setAllDrugOptions(allDrugs);
         } else {
           console.error('Error while fetching all drugs: ', response.status, response.statusText);
@@ -43,8 +45,9 @@ const App = () => {
       setExtraInformation('Please select at least 2 drugs.');
       setInteractions([]);
     } else {
+      setIsLoading(true);
+
       try {
-        setIsLoading(true);
         const queryParams = new URLSearchParams(
           selectedDrugs.map((drug) => ['drugs', drug.value]),
         ).toString();
