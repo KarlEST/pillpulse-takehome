@@ -1,8 +1,9 @@
 const fs = require('fs');
+
 const { parse } = require('csv-parse');
 const express = require('express');
 
-const allDrugs = []
+const allDrugs = [];
 const allDrugInteractions = {};
 
 initSampleData(allDrugs, allDrugInteractions);
@@ -10,7 +11,7 @@ initSampleData(allDrugs, allDrugInteractions);
 const PORT = 3001;
 const app = express();
 
-app.get("/api/drugs", (_req, res) => {
+app.get('/api/drugs', (_req, res) => {
   res.json({ allDrugs });
 });
 
@@ -22,16 +23,19 @@ app.get('/api/drugs/interactions', (req, res) => {
     for (let j = i + 1; j < drugs.length; j++) {
       const drugA = drugs[i];
       const drugB = drugs[j];
-      const drugsInteraction = allDrugInteractions[`${drugA}-${drugB}`] || allDrugInteractions[`${drugB}-${drugA}`];
+      const drugsInteraction =
+        allDrugInteractions[`${drugA}-${drugB}`] || allDrugInteractions[`${drugB}-${drugA}`];
 
       if (drugsInteraction) {
-        drugInteractions.push(`${drugsInteraction.level} interaction found between ${drugsInteraction.drugA} and ${drugsInteraction.drugB}.`);
+        drugInteractions.push(
+          `${drugsInteraction.level} interaction found between ${drugsInteraction.drugA} and ${drugsInteraction.drugB}.`,
+        );
       }
     }
   }
 
   res.json({ drugInteractions });
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server up and running and listening on ${PORT}`);
@@ -50,7 +54,7 @@ function initSampleData(allDrugs, allDrugInteractions) {
           Drug_A: drugA,
           DDInterID_B: drugBId,
           Drug_B: drugB,
-          Level: level
+          Level: level,
         } = csvRow;
 
         allDrugsTemp[drugAId] = drugA;
@@ -60,7 +64,7 @@ function initSampleData(allDrugs, allDrugInteractions) {
     })
     .on('end', function () {
       for (const [key, value] of Object.entries(allDrugsTemp)) {
-        allDrugs.push({ value: key, label: value, });
+        allDrugs.push({ value: key, label: value });
       }
 
       console.log('Finished reading sample_dataset to memory!');

@@ -13,5 +13,6 @@ module.exports = {
         checksVoidReturn: false,
       },
     ],
+    'no-console': 0,
   },
 };

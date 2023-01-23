@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { Options } from 'react-select';
 
@@ -48,11 +47,13 @@ const App = () => {
         const response = await fetch(`/api/drugs/interactions?${queryParams}`);
 
         if (response.ok) {
-          const { interactions } = (await response.json()) as { interactions: string[] };
+          const { drugInteractions } = (await response.json()) as {
+            drugInteractions: string[];
+          };
 
-          setInteractions(interactions);
+          setInteractions(drugInteractions);
 
-          if (interactions.length === 0) {
+          if (drugInteractions.length === 0) {
             setExtraInformation('There are no known interactions between these drugs.');
           } else {
             setExtraInformation('');
