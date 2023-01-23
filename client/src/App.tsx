@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
+import { Dna } from 'react-loader-spinner';
 import { Options } from 'react-select';
 
+import InteractionsInformation from './InteractionsInformation';
 import SearchBar from './SearchBar';
 import { DrugOption } from './types';
 
 import './App.css';
 
 const App = () => {
-  const [extraInformation, setExtraInformation] = useState<string>('Please add at least 2 drugs.');
+  const [extraInformation, setExtraInformation] = useState<string>(
+    'Please select at least 2 drugs.',
+  );
   const [interactions, setInteractions] = useState<string[]>([]);
   const [allDrugOptions, setAllDrugOptions] = useState<DrugOption[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,8 +39,8 @@ const App = () => {
   }, []);
 
   const handleDrugChange = async (selectedDrugs: Options<DrugOption>): Promise<void> => {
-    if (selectedDrugs?.length <= 1) {
-      setExtraInformation('Please add at least 2 drugs.');
+    if (selectedDrugs?.length < 2) {
+      setExtraInformation('Please select at least 2 drugs.');
       setInteractions([]);
     } else {
       try {
@@ -89,15 +93,14 @@ const App = () => {
             here
           </a>
         </p>
-        <h2>Can I take these drugs together?</h2>
-        <SearchBar options={allDrugOptions} onChange={handleDrugChange} isLoading={isLoading} />
-        {/* Image of the result */}
-        {isLoading ? 'LOADING' : null}
-        {extraInformation ? <p>{extraInformation}</p> : null}
-        {interactions.map((interaction) => (
-          <p key={interaction}>💊 {interaction}</p>
-        ))}
       </header>
+      <h2>Can I take these drugs together?</h2>
+      <SearchBar options={allDrugOptions} onChange={handleDrugChange} isLoading={isLoading} />
+      {isLoading ? (
+        <Dna height="80" width="80" ariaLabel="dna-loading" wrapperClass="App-loader" />
+      ) : (
+        <InteractionsInformation extraInformation={extraInformation} interactions={interactions} />
+      )}
     </div>
   );
 };
