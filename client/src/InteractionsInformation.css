@@ -1,5 +1,12 @@
-.InteractionsInformation-interactions {
+.InteractionsInformation {
   margin: auto;
-  padding-top: 16px;
+  margin-top: 12px;
   text-align: left;
+}
+
+.InteractionsInformation-image {
+  display: block;
+  height: 200px;
+  width: 200px;
+  margin: auto;
 }
